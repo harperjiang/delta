@@ -230,6 +230,25 @@ class ServerSidePlannedTableSuite extends QueryTest with DeltaSQLCommandTest {
     assert(metadata.tableProperties.isEmpty)
   }
 
+  test("UnityCatalogMetadata constructs IRC endpoint from UC URI") {
+    val ucUri = "https://unity-catalog-server.example.com"
+    val metadata = UnityCatalogMetadata(
+      catalogName = "test_catalog",
+      ucUri = ucUri,
+      ucToken = "test-token",
+      tableProps = Map.empty
+    )
+
+    // This test validates the fallback case where /v1/config is unreachable.
+    // The endpoint construction logic attempts to call /v1/config at the UC URI,
+    // but since there's no server at this URL, it falls back to the simple path
+    // without prefix. For tests of the prefix case with a real IRC server, see
+    // IcebergRESTCatalogPlanningClientSuite.
+    val expectedEndpoint =
+      "https://unity-catalog-server.example.com/api/2.1/unity-catalog/iceberg-rest"
+    assert(metadata.planningEndpointUri == expectedEndpoint)
+  }
+
   test("simple EqualTo filter pushed to planning client") {
     withPushdownCapturingEnabled {
       sql("SELECT id, name, value FROM test_db.shared_test WHERE id = 2").collect()
@@ -291,8 +310,8 @@ class ServerSidePlannedTableSuite extends QueryTest with DeltaSQLCommandTest {
 
       val capturedProjection = TestServerSidePlanningClient.getCapturedProjection
       assert(capturedProjection.isDefined, "Projection should be pushed down")
-      assert(capturedProjection.get.fieldNames.toSet == Set("id", "name"),
-        s"Expected {id, name}, got {${capturedProjection.get.fieldNames.mkString(", ")}}")
+      assert(capturedProjection.get.toSet == Set("id", "name"),
+        s"Expected {id, name}, got {${capturedProjection.get.mkString(", ")}}")
     }
   }
 
@@ -314,7 +333,7 @@ class ServerSidePlannedTableSuite extends QueryTest with DeltaSQLCommandTest {
       // Spark needs 'id' for SELECT and 'value' for WHERE clause
       val capturedProjection = TestServerSidePlanningClient.getCapturedProjection
       assert(capturedProjection.isDefined, "Projection should be pushed down")
-      val projectedFields = capturedProjection.get.fieldNames.toSet
+      val projectedFields = capturedProjection.get.toSet
       assert(projectedFields == Set("id", "value"),
         s"Expected projection with exactly {id, value}, got {${projectedFields.mkString(", ")}}")
 
