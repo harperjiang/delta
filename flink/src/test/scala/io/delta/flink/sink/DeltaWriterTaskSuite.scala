@@ -49,6 +49,8 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List("part").asJava)
+      table.open()
+
       val partitionValues = Map("part" -> Literal.ofString("p0")).asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -107,6 +109,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List("part").asJava)
+      table.open()
       val partitionValues = Map("part" -> Literal.ofString("p0")).asJava
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
       val writerTask = new DeltaWriterTask(
@@ -173,6 +176,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -262,6 +266,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -334,6 +339,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -436,6 +442,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -522,6 +529,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -629,6 +637,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val conf = new DeltaSinkConf(schema, Map.empty[String, String].asJava)
@@ -712,6 +721,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val rollSize = 500
@@ -777,6 +787,7 @@ class DeltaWriterTaskSuite extends AnyFunSuite with TestHelper {
         Map.empty[String, String].asJava,
         schema,
         List().asJava)
+      table.open()
       val partitionValues = Map.empty[String, Literal].asJava
 
       val rollSize = 200
