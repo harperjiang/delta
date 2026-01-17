@@ -185,7 +185,7 @@ public class DeltaSink
 
   @Override
   public void addPostCommitTopology(DataStream<CommittableMessage<DeltaCommittable>> committables) {
-    committables.global().process(new PostCommitOperator()).uid("PostCommit processor");
+
   }
 
   public static Builder builder() {

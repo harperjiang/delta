@@ -81,8 +81,8 @@ public class DeltaWriterResultAggregator
         results.stream()
             .collect(
                 DeltaWriterResult::new,
-                (buffer, toMerge) -> buffer.merge(toMerge),
-                (buffer1, buffer2) -> buffer1.merge(buffer2));
+                    DeltaWriterResult::merge,
+                    DeltaWriterResult::merge);
 
     DeltaCommittable committable =
         new DeltaCommittable(
