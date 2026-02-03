@@ -37,10 +37,14 @@ public class FlinkUnityCatalog extends AbstractCatalog {
   }
 
   @Override
-  public void open() throws CatalogException {}
+  public void open() throws CatalogException {
+    deltaCatalog.open();
+  }
 
   @Override
-  public void close() throws CatalogException {}
+  public void close() throws CatalogException {
+    // UnityCatalog doesn't require explicit cleanup
+  }
 
   @Override
   public List<String> listDatabases() throws CatalogException {
