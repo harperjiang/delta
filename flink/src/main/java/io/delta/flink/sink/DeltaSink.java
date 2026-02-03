@@ -268,17 +268,38 @@ public class DeltaSink
       this.configurations = configurations;
       Configuration extract = Configuration.fromMap(configurations);
 
-      // Extract everything from configurations
-      this.tableType = extract.get(TYPE, null);
-      this.tablePath = extract.get(HADOOP_TABLE_PATH, null);
-      this.catalogName = extract.get(UNITYCATALOG_NAME, "main");
-      this.tableName = extract.get(UNITYCATALOG_TABLE_NAME, null);
+      // Extract from configurations only if not already set (to avoid overwriting explicit setters)
+      TableType configType = extract.get(TYPE, null);
+      if (configType != null) {
+        this.tableType = configType;
+      }
+
+      String configPath = extract.get(HADOOP_TABLE_PATH, null);
+      if (configPath != null) {
+        this.tablePath = configPath;
+      }
+
+      String configCatalogName = extract.get(UNITYCATALOG_NAME, null);
+      if (configCatalogName != null) {
+        this.catalogName = configCatalogName;
+      } else if (this.catalogName == null) {
+        this.catalogName = "main"; // default
+      }
+
+      String configTableName = extract.get(UNITYCATALOG_TABLE_NAME, null);
+      if (configTableName != null) {
+        this.tableName = configTableName;
+      }
 
       String endpoint = extract.get(UNITYCATALOG_ENDPOINT, null);
-      if (Objects.nonNull(endpoint)) {
+      if (endpoint != null) {
         this.endpoint = URI.create(endpoint);
       }
-      this.token = extract.get(UNITYCATALOG_TOKEN, null);
+
+      String configToken = extract.get(UNITYCATALOG_TOKEN, null);
+      if (configToken != null) {
+        this.token = configToken;
+      }
       return this;
     }
 
